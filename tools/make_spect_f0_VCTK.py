@@ -14,16 +14,16 @@ from utils import pySTFT
 
 
 # Modify as needed
-spknum = 200
+spknum = 20 # select number of training speakers
 rootDir = '../data/VCTK_cat_train'
 tarDir = '../data/training_cat'
 
 targetDir_f0 = tarDir + '/raptf0'
 targetDir_dvec = tarDir + '/dvec'
 targetDir = tarDir + '/spmel'
-spkDir = '../data/VCTK_wav/spk2spkid' # defining a mapping from a speaker to its id
+spkDir = '../data/spk2spkid' # defining a mapping from a speaker to its id
 dvecDir = '../data/VCTK_dvec/dvector_VCTK.npz' # defining a mapping from a speaker to its d-vector
-spk2gen = pickle.load(open('../data/VCTK_wav/spk2gen.pkl', "rb")) # defining a mapping from a speaker to its gender
+spk2gen = pickle.load(open('../data/spk2gen.pkl', "rb")) # defining a mapping from a speaker to its gender
 
 mel_basis = mel(16000, 1024, fmin=90, fmax=7600, n_mels=80).T
 min_level = np.exp(-100 / 20 * np.log(10))
@@ -99,8 +99,6 @@ for subdir in sorted(subdirList):
         index_nonzero = (f0_rapt != -1e10)
         mean_f0, std_f0 = np.mean(f0_rapt[index_nonzero]), np.std(f0_rapt[index_nonzero])
         f0_norm = speaker_normalization(f0_rapt, index_nonzero, mean_f0, std_f0)
-        print(f0_norm.mean())
-        print(f0_norm)
         assert len(S) == len(f0_rapt)
             
         np.save(os.path.join(targetDir, subdir, fileName[:-4]),

@@ -2,7 +2,7 @@ import os
 import pickle
 import numpy as np
 
-rootDir = '../data/training_cat'
+rootDir = '../data/valid'
 tarDir = '../data/training_cat'
 tarFile = 'demo.pkl'
 len_pad = 192
